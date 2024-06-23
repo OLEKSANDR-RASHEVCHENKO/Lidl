@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'io.qameta.allure' version '2.9.6'
+    id "org.gradle.test-retry" version "1.5.3"
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+allure {
+    autoconfigure = true
+}
+dependencies {
+    implementation group: 'io.qameta.allure', name: 'allure-testng', version: '2.13.3'
+    runtimeOnly group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.7'
+    implementation group: 'io.rest-assured', name: 'rest-assured', version: '5.4.0'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.15.2'
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.15.0'
+    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.6.2'
+    implementation group: 'org.testng', name: 'testng', version: '7.8.0'
+    implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
+    implementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
+}
+
+test {
+    useTestNG()
+    retry {
+        maxRetries = 3
+    }
+
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
+    }
+    systemProperty 'allure.result.directory', 'build/allure-results'
+}
+
+
+task smokeTestsApiAdminAction(type: Test) {
+    useTestNG() {
+        suites 'src/test/resources/ApiSmokeTestsAdminAction.xml'
+    }
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
+    }
+    systemProperty 'allure.result.directory', 'build/allure-results'
+}
+
+task smokeTestsApiUserAction(type: Test) {
+    useTestNG() {
+        suites 'src/test/resources/UiSmokeTests.xml'
+    }
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
+    }
+    systemProperty 'allure.result.directory', 'build/allure-results'
+}
