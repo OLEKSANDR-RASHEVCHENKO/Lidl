@@ -1,5 +1,6 @@
 package e2e.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,6 +17,7 @@ public class StartPage extends BasePage {
     WebElement cookies;
     @FindBy(xpath = "//a[@class='n-navigation__menu-nav--link n-header__icon-link']//span[@class='n-navigation__menu-nav--image-wrapper']//span[@role='img']")
     WebElement loginButton;
+
     public void waitForLoadingStartPage(){
         getWait().forVisibility(header);
         Assert.assertTrue(header.isDisplayed());
@@ -27,5 +29,16 @@ public class StartPage extends BasePage {
     }
     public void cookies(){
         cookies.click();
+    }
+    public void clickOnOneFromCategory(String category)
+    {
+        WebElement categorys  = driver.findElement(By.xpath("//*[@class='ux-base-slider__slide']//*[text()='"+category+"']"));
+        if (!categorys.isDisplayed()){
+            WebElement weiter = driver.findElement(By.xpath("//div[@class='ux-base-slider']//button[@title='Weiter']"));
+            weiter.click();
+            categorys.click();
+        }else {
+            categorys.click();
+        }
     }
 }

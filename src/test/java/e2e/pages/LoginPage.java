@@ -17,12 +17,17 @@ public class LoginPage extends BasePage{
     WebElement weiterButton;
     @FindBy(xpath = "//label[normalize-space()='Passwort']")
     WebElement passwordBlock;
-    @FindBy(xpath = "//label[normalize-space()='rashevchenkoo@gmail.com']")
+    @FindBy(xpath = "//*[@class='content-header']//label")
     WebElement emailAfterInputEmail;
     @FindBy(xpath = "//input[@id='field_Password']")
     WebElement passwordInput;
     @FindBy(xpath = "//button[@id='button_submit']")
     WebElement weiterButtonAfterInputPassword;
+
+    @FindBy(xpath = "//p[@class='error_EmailOrPhone']")
+    WebElement emailError;
+    @FindBy(xpath = "//p[@class='error_Password']")
+    WebElement passwordError;
     public void waitForLoginPage(){
         getWait().forVisibility(loginBlock);
         Assert.assertTrue(loginBlock.isDisplayed());
@@ -37,11 +42,33 @@ public class LoginPage extends BasePage{
         String email=emailAfterInputEmail.getText();
         return  email;
     }
+    public void waitForPasswordBlock(){
+        getWait().forVisibility(passwordBlock);
+        Assert.assertTrue(passwordBlock.isDisplayed());
+    }
     public void passwordInput(String password){
         getWait().forVisibility(passwordBlock);
         Assert.assertTrue(passwordBlock.isDisplayed());
         passwordInput.sendKeys(password);
         weiterButtonAfterInputPassword.click();
     }
+
+    public void emailErrorIsVisible(){
+        getWait().forVisibility(emailError);
+        Assert.assertTrue(emailError.isDisplayed());
+    }
+    public String getEmailError(){
+        String emailErrorText= emailError.getText();
+        return emailErrorText;
+    }
+    public void passwordErrorIsVisible(){
+        getWait().forVisibility(passwordError);
+        Assert.assertTrue(passwordError.isDisplayed());
+    }
+    public String getPasswordError(){
+        String passwordErrorText = passwordError.getText();
+        return passwordErrorText;
+    }
+
 
 }
