@@ -48,6 +48,8 @@ public class ApplicationManager {
                 options.addArguments("--headless");
             }
             options.addArguments("--no-sandbox", "--disable-dev-shm-usage");
+            options.addArguments("--force-device-scale-factor=1");
+            options.addArguments("--high-dpi-support=1");
             driver = new ChromeDriver(options);
         }
         driver.get(config.getProjectUrl());
