@@ -1,5 +1,6 @@
 package e2e.pages;
 
+import e2e.enums.NavigationMenu;
 import e2e.wait.Wait;
 import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
@@ -23,6 +24,10 @@ public class BasePage {
 
     public Wait getWait() {
         return new Wait(driver);
+    }
+    public void clickOnNavi(NavigationMenu navigationMenu){
+        WebElement lidlLogo = driver.findElement(By.xpath(navigationMenu.getLocator()));
+        lidlLogo.click();
     }
 
 

@@ -38,8 +38,5 @@ public class MyPage extends BasePage{
 //    public void clickOnLidlLogo(){
 //        lidlLogo.click();
 //    }
-    public void clickOnLidlLogo(NavigationMenu navigationMenu){
-        WebElement lidlLogo = driver.findElement(By.xpath(navigationMenu.getLocator()));
-        lidlLogo.click();
-    }
+
 }

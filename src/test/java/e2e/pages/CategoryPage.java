@@ -43,4 +43,9 @@ public class CategoryPage extends BasePage{
         Actions actions = new Actions(driver);
         actions.moveToElement(element).moveToElement(sortCategory).click().perform();
     }
+    public void clickOnItem(int item){
+        WebElement itemOnPage = driver.findElement(By.xpath("//*[@class='s-grid__item']["+item+"]"));
+        itemOnPage.click();
+    }
+
 }

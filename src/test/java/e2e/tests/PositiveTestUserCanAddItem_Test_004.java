@@ -1,20 +1,18 @@
 package e2e.tests;
 
 import e2e.enums.NavigationMenu;
-import e2e.pages.CategoryPage;
-import e2e.pages.LoginPage;
-import e2e.pages.MyPage;
-import e2e.pages.StartPage;
+import e2e.pages.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class PositiveTestsUserCanSelectCategory_Test_003 extends BaseTest {
+public class PositiveTestUserCanAddItem_Test_004 extends BaseTest {
     StartPage startPage;
     LoginPage loginPage;
     MyPage myPage;
     CategoryPage categoryPage;
+    ItemPage itemPage;
     @Test
-    public void loginTest(){
+    public void addItem(){
         String email = "rashevchenkoo@gmail.com";
         String password = "Gazmanov_1234";
         String category = "Mode";
@@ -38,8 +36,16 @@ public class PositiveTestsUserCanSelectCategory_Test_003 extends BaseTest {
         categoryPage.waiteForLoading();
         String titleFromCategory = categoryPage.getTitleFromCategoryPage();
         Assert.assertEquals(category,titleFromCategory);
-        categoryPage.sort("Preis aufsteigend");
-        categoryPage.waiteForLoading();
-        categoryPage.chooseSubCategory("Damenmode");
+        categoryPage.clickOnItem(7);
+        itemPage = new ItemPage(app.driver);
+        itemPage.waitForLoading();
+        String itemTitle  = itemPage.getItemTitleFromItemPage();
+        String itemPrice  = itemPage.getPrice();
+        itemPage.addItemToCard(true);
+        itemPage.clickOnNavi(NavigationMenu.SHOPPING_CART_ICON);
+        System.out.println(itemTitle);
+        System.out.println(itemPrice);
+
     }
+
 }
