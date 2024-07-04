@@ -15,7 +15,7 @@ public class PositiveTestUserCanAddItem_Test_004 extends BaseTest {
     public void addItem(){
         String email = "rashevchenkoo@gmail.com";
         String password = "Gazmanov_1234";
-        String category = "Mode";
+        String category = "Baumarkt";
         startPage = new StartPage(app.driver);
         startPage.waitForLoadingStartPage();
         startPage.cookies();
