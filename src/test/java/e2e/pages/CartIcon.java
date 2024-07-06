@@ -20,6 +20,15 @@ public class CartIcon extends BasePage{
     @FindBy(xpath = "//div[contains(text(), ' Insgesamt ')]/following-sibling::div[@class='base-price__price base-price__price--total']")
     WebElement totalPrice;
 
+    public String getVersandKosten (){
+        String versand = versandkosten.getText();
+        return versand;
+    }
+    public String getTotalPrice(){
+        String total = totalPrice.getText();
+        return total;
+    }
+
 
 
 
