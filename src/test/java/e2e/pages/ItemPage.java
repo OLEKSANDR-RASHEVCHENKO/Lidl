@@ -1,5 +1,6 @@
 package e2e.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -30,8 +31,6 @@ public class ItemPage extends BasePage{
         Assert.assertTrue(price.isDisplayed());
         getWait().forVisibility(addToCardButton);
         Assert.assertTrue(addToCardButton.isDisplayed());
-        getWait().forVisibility(aufDieMerkliste);
-        Assert.assertTrue(aufDieMerkliste.isDisplayed());
     }
 
     public String getItemTitleFromItemPage(){

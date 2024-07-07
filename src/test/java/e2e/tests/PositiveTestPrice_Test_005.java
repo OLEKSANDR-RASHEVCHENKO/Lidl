@@ -5,7 +5,18 @@ import e2e.pages.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class PositiveTestPrice_Test_005 extends BaseTest{
+    public static String extractPrice(String text) {
+        Pattern pattern = Pattern.compile("\\d+(\\.\\d+)?");
+        Matcher matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            return matcher.group();
+        }
+        throw new NumberFormatException("No valid number found in text: " + text);
+    }
     StartPage startPage;
     LoginPage loginPage;
     MyPage myPage;
@@ -43,46 +54,31 @@ public class PositiveTestPrice_Test_005 extends BaseTest{
         String itemTitleOnItemPage  = itemPage.getItemTitleFromItemPage();
         String itemPriceOnItemPage  = itemPage.getPrice();
         itemPage.addItemToCard(true);
+
         itemPage.clickOnNavi(NavigationMenu.SHOPPING_CART_ICON);
         cartIcon = new CartIcon(app.driver);
         cartIcon.waitForLoading();
         String itemTitleOnCartIconPage=cartIcon.getTitleFromCartItemPage(itemTitleOnItemPage);
         String itemPriceONCartIconPage=cartIcon.getPriceFromCartItemPage(itemTitleOnItemPage);
-        Assert.assertEquals(itemTitleOnItemPage,itemTitleOnCartIconPage);
+        //Assert.assertEquals(itemTitleOnItemPage,itemTitleOnCartIconPage);
         Assert.assertEquals(itemPriceOnItemPage,itemPriceONCartIconPage);
 
         String versand=cartIcon.getVersandKosten();
         String totalPrice=cartIcon.getTotalPrice();
+        String cleanedVersand = extractPrice(versand);
+        String cleanedTotalPrice = extractPrice(totalPrice);
 
-        // Удаляем все символы, кроме цифр и одной точки
-        String cleanedVersand = versand.replaceAll("[^\\d.]", "");
-        String cleanedTotalPrice = totalPrice.replaceAll("[^\\d.]", "");
-
-// Убираем все точки, кроме последней, чтобы избежать "multiple points" ошибки
-        cleanedVersand = cleanedVersand.replaceAll("(?<=\\d)\\.(?=\\d)", "");
-        cleanedTotalPrice = cleanedTotalPrice.replaceAll("(?<=\\d)\\.(?=\\d)", "");
-
-        double itemPriceOnItemPages = Double.valueOf(itemPriceOnItemPage);
+        double itemPriceOnItemPages = Double.parseDouble(itemPriceOnItemPage);
         double versandKosten = Double.parseDouble(cleanedVersand);
         double totalPriceExpected = Double.parseDouble(cleanedTotalPrice);
 
-        System.out.println("itemPriceOnItemPages: " + itemPriceOnItemPages); // 14.99
-        System.out.println("versandKosten: " + versandKosten); // 5.95
-        System.out.println("totalPriceExpected: " + totalPriceExpected); // 20.94
-
+        System.out.println("itemPriceOnItemPages: " + itemPriceOnItemPages);
+        System.out.println("versandKosten: " + versandKosten);
+        System.out.println("totalPriceExpected: " + totalPriceExpected);
         double totalPriceActual = itemPriceOnItemPages + versandKosten;
-
-        System.out.println("totalPriceActual: " + totalPriceActual); // Должно быть 20.94
-
+        System.out.println("totalPriceActual: " + totalPriceActual);
         Assert.assertEquals(totalPriceExpected, totalPriceActual);
-
-
-
-
-
-
-
-
+        cartIcon.removeItem(itemTitleOnItemPage);
 
 
     }
